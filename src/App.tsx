@@ -1,38 +1,96 @@
-import * as React from "react"
+import React, { useState } from "react";
 import {
-  ChakraProvider,
+  Flex,
+  Heading,
   Box,
   Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
-  theme,
-} from "@chakra-ui/react"
-import { ColorModeSwitcher } from "./ColorModeSwitcher"
-import { Logo } from "./Logo"
+  UnorderedList,
+  ListItem,
+} from "@chakra-ui/react";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from "react-beautiful-dnd";
+import Task from "./components/Task";
+import TaskGroup from "./components/TaskGroup";
 
-export const App = () => (
-  <ChakraProvider theme={theme}>
-    <Box textAlign="center" fontSize="xl">
-      <Grid minH="100vh" p={3}>
-        <ColorModeSwitcher justifySelf="flex-end" />
-        <VStack spacing={8}>
-          <Logo h="40vmin" pointerEvents="none" />
-          <Text>
-            Edit <Code fontSize="xl">src/App.tsx</Code> and save to reload.
-          </Text>
-          <Link
-            color="teal.500"
-            href="https://chakra-ui.com"
-            fontSize="2xl"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn Chakra
-          </Link>
-        </VStack>
-      </Grid>
-    </Box>
-  </ChakraProvider>
-)
+const App = () => {
+  const [columns, setColumns] = useState([
+    {
+      id: 1,
+      title: "To do",
+      tasks: ["a", "b", "c"],
+    },
+    {
+      id: 2,
+      title: "Doing",
+      tasks: ["d"],
+    },
+    {
+      id: 3,
+      title: "Done",
+      tasks: [],
+    },
+  ]);
+
+  const handleDragEnd = (result: DropResult) => {
+    if (!result.destination) {
+      return;
+    }
+    console.log(result);
+    // Moving within same column
+    // Index
+
+    // Moving to different column
+    // Droppable id and index
+  };
+
+  return (
+    <DragDropContext onDragEnd={handleDragEnd}>
+      <Flex minHeight="100vh" bg="blue.500" color="gray.600">
+        {columns.map((col) => (
+          <TaskGroup
+            key={col.id}
+            columnId={String(col.id)}
+            title={col.title}
+            tasks={col.tasks}
+          />
+        ))}
+      </Flex>
+    </DragDropContext>
+  );
+};
+
+export default App;
+
+/* <Droppable droppableId="task-group-area" direction="horizontal">
+          {(provided, snapshot) => (
+            <Flex
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+              bg={snapshot.isDraggingOver ? "pink.200" : "yellow.400"}
+              flexGrow={1}
+            >
+              {taskGroups.map((tg, idx) => (
+                <Draggable
+                  key={tg.id}
+                  draggableId={`task-group-${tg.id}`}
+                  index={idx}
+                >
+                  {(provided, snapshot) => (
+                    <TaskGroup
+                      provided={provided}
+                      snapshot={snapshot}
+                      title={tg.title}
+                    >
+                      <Task />
+                    </TaskGroup>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </Flex>
+          )}
+        </Droppable> */
