@@ -15,21 +15,23 @@ import {
 } from "react-beautiful-dnd";
 import Task from "./components/Task";
 import TaskGroup from "./components/TaskGroup";
+import { reorderItems } from "./helpers/reorder";
+import { ColumnsType } from "./helpers/types";
 
 const App = () => {
-  const [columns, setColumns] = useState([
+  const [columns, setColumns] = useState<ColumnsType>([
     {
-      id: 1,
+      id: "1",
       title: "To do",
       tasks: ["a", "b", "c"],
     },
     {
-      id: 2,
+      id: "2",
       title: "Doing",
       tasks: ["d"],
     },
     {
-      id: 3,
+      id: "3",
       title: "Done",
       tasks: [],
     },
@@ -40,11 +42,7 @@ const App = () => {
       return;
     }
     console.log(result);
-    // Moving within same column
-    // Index
-
-    // Moving to different column
-    // Droppable id and index
+    setColumns(reorderItems(columns, result.source, result.destination));
   };
 
   return (
@@ -53,7 +51,7 @@ const App = () => {
         {columns.map((col) => (
           <TaskGroup
             key={col.id}
-            columnId={String(col.id)}
+            columnId={col.id}
             title={col.title}
             tasks={col.tasks}
           />
