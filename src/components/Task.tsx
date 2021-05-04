@@ -14,8 +14,11 @@ const Task = (props: Props) => {
       {...props.provided.draggableProps}
       {...props.provided.dragHandleProps}
       bg="white"
+      mb="0.5rem"
+      borderRadius="5px"
+      p="0.5rem"
     >
-      <Heading>{props.task}</Heading>
+      <Text fontSize="1.5em">{props.task}</Text>
     </ListItem>
   );
 };

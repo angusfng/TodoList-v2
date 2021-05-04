@@ -52,7 +52,4 @@ export const reorderItems = (
     }
     return c;
   });
-
-  // destination.droppableId
-  // destination.index
 };

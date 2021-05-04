@@ -25,8 +25,16 @@ interface Props {
 
 const TaskGroup = (props: Props) => {
   return (
-    <Box>
-      <Heading as="h2" size="md" mb="1rem">
+    <Box m="1rem">
+      <Heading
+        as="h2"
+        size="md"
+        p="0.5rem"
+        bg="gray.200"
+        borderTopRadius="5px"
+        fontWeight="semibold"
+        textAlign="center"
+      >
         {props.title}
       </Heading>
       <Droppable droppableId={props.columnId}>
@@ -34,10 +42,12 @@ const TaskGroup = (props: Props) => {
           <Box
             ref={provided.innerRef}
             {...provided.droppableProps}
-            bg={snapshot.isDraggingOver ? "pink.200" : "red.100"}
-            w="18rem"
-            p="1rem"
-            m="1rem"
+            bg={snapshot.isDraggingOver ? "orange.100" : "gray.200"}
+            w="25rem"
+            maxW="100%"
+            minH="30rem"
+            p="0.5rem"
+            borderBottomRadius="5px"
           >
             <UnorderedList m={0} listStyleType="none">
               {props.tasks.map((task, idx) => (

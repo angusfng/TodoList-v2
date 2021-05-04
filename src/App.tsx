@@ -28,7 +28,7 @@ const App = () => {
     {
       id: "2",
       title: "Doing",
-      tasks: ["d"],
+      tasks: ["d", "e"],
     },
     {
       id: "3",
@@ -47,48 +47,20 @@ const App = () => {
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <Flex minHeight="100vh" bg="blue.500" color="gray.600">
-        {columns.map((col) => (
-          <TaskGroup
-            key={col.id}
-            columnId={col.id}
-            title={col.title}
-            tasks={col.tasks}
-          />
-        ))}
+      <Flex minHeight="100vh" color="gray.600" justify="center" flexWrap="wrap">
+        <Flex>
+          {columns.map((col) => (
+            <TaskGroup
+              key={col.id}
+              columnId={col.id}
+              title={col.title}
+              tasks={col.tasks}
+            />
+          ))}
+        </Flex>
       </Flex>
     </DragDropContext>
   );
 };
 
 export default App;
-
-/* <Droppable droppableId="task-group-area" direction="horizontal">
-          {(provided, snapshot) => (
-            <Flex
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-              bg={snapshot.isDraggingOver ? "pink.200" : "yellow.400"}
-              flexGrow={1}
-            >
-              {taskGroups.map((tg, idx) => (
-                <Draggable
-                  key={tg.id}
-                  draggableId={`task-group-${tg.id}`}
-                  index={idx}
-                >
-                  {(provided, snapshot) => (
-                    <TaskGroup
-                      provided={provided}
-                      snapshot={snapshot}
-                      title={tg.title}
-                    >
-                      <Task />
-                    </TaskGroup>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </Flex>
-          )}
-        </Droppable> */
