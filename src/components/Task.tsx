@@ -1,9 +1,11 @@
 import React from "react";
-import { Box, Text, ListItem, Heading } from "@chakra-ui/react";
-import { Draggable, DraggableProvided } from "react-beautiful-dnd";
+import { Text, ListItem, IconButton, Box } from "@chakra-ui/react";
+import { DraggableProvided } from "react-beautiful-dnd";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { TaskType } from "../helpers/types";
 
 interface Props {
-  task: string;
+  task: TaskType;
   provided: DraggableProvided;
 }
 
@@ -17,8 +19,26 @@ const Task = (props: Props) => {
       mb="0.5rem"
       borderRadius="5px"
       p="0.5rem"
+      d="flex"
+      justifyContent="space-between"
+      alignItems="center"
     >
-      <Text fontSize="1.5em">{props.task}</Text>
+      <Text mr={3} fontSize="1.1em">
+        {props.task.details}
+      </Text>
+      <Box minW="max-content">
+        <IconButton
+          colorScheme="red"
+          aria-label="delete-task"
+          icon={<DeleteIcon />}
+          mr={2}
+        />
+        <IconButton
+          colorScheme="teal"
+          aria-label="delete-task"
+          icon={<EditIcon />}
+        />
+      </Box>
     </ListItem>
   );
 };

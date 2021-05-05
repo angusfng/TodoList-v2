@@ -1,25 +1,12 @@
 import React from "react";
-import {
-  Box,
-  Heading,
-  Text,
-  Divider,
-  UnorderedList,
-  ListItem,
-  Flex,
-} from "@chakra-ui/react";
-import {
-  DragDropContext,
-  Droppable,
-  Draggable,
-  DraggableProvided,
-  DraggableStateSnapshot,
-} from "react-beautiful-dnd";
+import { Box, Heading, UnorderedList } from "@chakra-ui/react";
+import { Droppable, Draggable } from "react-beautiful-dnd";
 import Task from "./Task";
+import { TaskType } from "../helpers/types";
 
 interface Props {
   title: string;
-  tasks: string[];
+  tasks: TaskType[];
   columnId: string;
 }
 
@@ -51,7 +38,7 @@ const TaskGroup = (props: Props) => {
           >
             <UnorderedList m={0} listStyleType="none">
               {props.tasks.map((task, idx) => (
-                <Draggable key={task} draggableId={task} index={idx}>
+                <Draggable key={task.id} draggableId={task.id} index={idx}>
                   {(provided) => <Task task={task} provided={provided} />}
                 </Draggable>
               ))}

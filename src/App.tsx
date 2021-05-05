@@ -1,34 +1,23 @@
-import React, { useState } from "react";
-import {
-  Flex,
-  Heading,
-  Box,
-  Text,
-  UnorderedList,
-  ListItem,
-} from "@chakra-ui/react";
-import {
-  DragDropContext,
-  Droppable,
-  Draggable,
-  DropResult,
-} from "react-beautiful-dnd";
-import Task from "./components/Task";
+import React, { useState, useEffect } from "react";
+import { Button, Flex, Input } from "@chakra-ui/react";
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import TaskGroup from "./components/TaskGroup";
 import { reorderItems } from "./helpers/reorder";
-import { ColumnsType } from "./helpers/types";
+import { ColumnType, TaskType } from "./helpers/types";
+import { nanoid } from "nanoid";
 
 const App = () => {
-  const [columns, setColumns] = useState<ColumnsType>([
+  const [taskText, setTaskText] = useState("");
+  const [columns, setColumns] = useState<ColumnType[]>([
     {
       id: "1",
       title: "To do",
-      tasks: ["a", "b", "c"],
+      tasks: [],
     },
     {
       id: "2",
       title: "Doing",
-      tasks: ["d", "e"],
+      tasks: [],
     },
     {
       id: "3",
@@ -37,18 +26,62 @@ const App = () => {
     },
   ]);
 
+  useEffect(() => {
+    // Get state from localstorage
+    setColumns(JSON.parse(localStorage.getItem("tasks")!));
+  }, []);
+
   const handleDragEnd = (result: DropResult) => {
     if (!result.destination) {
       return;
     }
-    console.log(result);
-    setColumns(reorderItems(columns, result.source, result.destination));
+    const reordered = reorderItems(columns, result.source, result.destination);
+    localStorage.setItem("tasks", JSON.stringify(reordered));
+    setColumns(reordered);
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Create new task
+    const newTask = {
+      id: nanoid(),
+      details: taskText,
+      taskState: "1",
+    };
+    // Insert new task
+    const toDoColumn = columns.find((c) => c.id === "1")!;
+    toDoColumn.tasks.push(newTask);
+    // Columns format with inserted task
+    const inserted = columns.map((c) => {
+      if (c.id === "1") {
+        return {
+          ...c,
+          tasks: toDoColumn.tasks,
+        };
+      }
+      return c;
+    });
+    localStorage.setItem("tasks", JSON.stringify(inserted));
+    setColumns(inserted);
+    setTaskText("");
   };
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
       <Flex minHeight="100vh" color="gray.600" justify="center" flexWrap="wrap">
-        <Flex>
+        <form onSubmit={handleSubmit}>
+          <Flex align="center" my="1rem">
+            <Input
+              onChange={(e) => setTaskText(e.target.value)}
+              value={taskText}
+              placeholder="New task ..."
+            />
+            <Button type="submit" w="10rem" ml="1rem" colorScheme="teal">
+              Add task
+            </Button>
+          </Flex>
+        </form>
+        <Flex flexWrap="wrap" justifyContent="center">
           {columns.map((col) => (
             <TaskGroup
               key={col.id}

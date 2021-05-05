@@ -1,11 +1,11 @@
-export type Task = {
+export type TaskType = {
   id: string;
   details: string;
-  completed: boolean;
+  taskState: string;
 };
 
-export type ColumnsType = {
+export type ColumnType = {
   id: string;
   title: string;
-  tasks: string[];
-}[];
+  tasks: TaskType[];
+};

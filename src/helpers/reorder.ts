@@ -1,7 +1,8 @@
 import { DraggableLocation } from "react-beautiful-dnd";
-import { ColumnsType } from "./types";
+import { ColumnType } from "./types";
 
 // Helper function to reorder an item within the same list
+// Returns new list
 const reorderList = (list: any[], startIndex: number, endIndex: number) => {
   const result = [...list];
   const [removed] = result.splice(startIndex, 1);
@@ -12,7 +13,7 @@ const reorderList = (list: any[], startIndex: number, endIndex: number) => {
 };
 
 export const reorderItems = (
-  columns: ColumnsType,
+  columns: ColumnType[],
   source: DraggableLocation,
   destination: DraggableLocation
 ) => {
@@ -36,6 +37,7 @@ export const reorderItems = (
   // Remove from original
   current.tasks.splice(source.index, 1);
   // Insert into next
+  target.taskState = destination.droppableId;
   next.tasks.splice(destination.index, 0, target);
 
   return columns.map((c) => {
