@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Button, Flex, Input } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Input } from "@chakra-ui/react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import TaskGroup from "./components/TaskGroup";
 import { reorderItems } from "./helpers/reorder";
-import { ColumnType, TaskType } from "./helpers/types";
+import { ColumnType } from "./helpers/types";
 import { nanoid } from "nanoid";
 
 const App = () => {
   const [taskText, setTaskText] = useState("");
+  const [update, setUpdate] = useState(false);
   const [columns, setColumns] = useState<ColumnType[]>([
     {
       id: "1",
@@ -28,8 +29,11 @@ const App = () => {
 
   useEffect(() => {
     // Get state from localstorage
-    setColumns(JSON.parse(localStorage.getItem("tasks")!));
-  }, []);
+    const storageColumns = JSON.parse(localStorage.getItem("tasks")!);
+    if (storageColumns) {
+      setColumns(storageColumns);
+    }
+  }, [update]);
 
   const handleDragEnd = (result: DropResult) => {
     if (!result.destination) {
@@ -42,6 +46,9 @@ const App = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (taskText === "") {
+      return;
+    }
     // Create new task
     const newTask = {
       id: nanoid(),
@@ -49,47 +56,58 @@ const App = () => {
       taskState: "1",
     };
     // Insert new task
-    const toDoColumn = columns.find((c) => c.id === "1")!;
+    const insertedColumns = [...columns];
+    const toDoColumn = insertedColumns.find((c) => c.id === "1")!;
     toDoColumn.tasks.push(newTask);
-    // Columns format with inserted task
-    const inserted = columns.map((c) => {
-      if (c.id === "1") {
-        return {
-          ...c,
-          tasks: toDoColumn.tasks,
-        };
-      }
-      return c;
-    });
-    localStorage.setItem("tasks", JSON.stringify(inserted));
-    setColumns(inserted);
+    localStorage.setItem("tasks", JSON.stringify(insertedColumns));
+
+    setColumns(insertedColumns);
     setTaskText("");
   };
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <Flex minHeight="100vh" color="gray.600" justify="center" flexWrap="wrap">
-        <form onSubmit={handleSubmit}>
-          <Flex align="center" my="1rem">
-            <Input
-              onChange={(e) => setTaskText(e.target.value)}
-              value={taskText}
-              placeholder="New task ..."
-            />
-            <Button type="submit" w="10rem" ml="1rem" colorScheme="teal">
-              Add task
-            </Button>
+      <Flex
+        minHeight="100vh"
+        color="gray.600"
+        flexWrap="wrap"
+        flexDirection="column"
+        align="center"
+      >
+        <Heading as="h1" size="2xl" mt="2%">
+          Todo List v2
+        </Heading>
+        <Flex
+          justify="center"
+          flexDirection="column"
+          align="center"
+          mt="1.5rem"
+        >
+          <Box maxW="32rem" px="1rem" w="100%">
+            <form onSubmit={handleSubmit}>
+              <Flex align="center" my="1rem">
+                <Input
+                  onChange={(e) => setTaskText(e.target.value)}
+                  value={taskText}
+                  placeholder="New task ..."
+                />
+                <Button type="submit" w="10rem" ml="1rem" colorScheme="teal">
+                  Add task
+                </Button>
+              </Flex>
+            </form>
+          </Box>
+          <Flex flexWrap="wrap" justifyContent="center">
+            {columns.map((col) => (
+              <TaskGroup
+                key={col.id}
+                columnId={col.id}
+                title={col.title}
+                tasks={col.tasks}
+                setUpdate={setUpdate}
+              />
+            ))}
           </Flex>
-        </form>
-        <Flex flexWrap="wrap" justifyContent="center">
-          {columns.map((col) => (
-            <TaskGroup
-              key={col.id}
-              columnId={col.id}
-              title={col.title}
-              tasks={col.tasks}
-            />
-          ))}
         </Flex>
       </Flex>
     </DragDropContext>

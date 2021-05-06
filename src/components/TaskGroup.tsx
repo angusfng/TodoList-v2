@@ -8,6 +8,7 @@ interface Props {
   title: string;
   tasks: TaskType[];
   columnId: string;
+  setUpdate: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const TaskGroup = (props: Props) => {
@@ -16,8 +17,8 @@ const TaskGroup = (props: Props) => {
       <Heading
         as="h2"
         size="md"
-        p="0.5rem"
-        bg="gray.200"
+        p="0.7rem"
+        bg="gray.300"
         borderTopRadius="5px"
         fontWeight="semibold"
         textAlign="center"
@@ -39,7 +40,14 @@ const TaskGroup = (props: Props) => {
             <UnorderedList m={0} listStyleType="none">
               {props.tasks.map((task, idx) => (
                 <Draggable key={task.id} draggableId={task.id} index={idx}>
-                  {(provided) => <Task task={task} provided={provided} />}
+                  {(provided) => (
+                    <Task
+                      task={task}
+                      provided={provided}
+                      index={idx}
+                      setUpdate={props.setUpdate}
+                    />
+                  )}
                 </Draggable>
               ))}
               {provided.placeholder}

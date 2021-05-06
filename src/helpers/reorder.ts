@@ -40,18 +40,5 @@ export const reorderItems = (
   target.taskState = destination.droppableId;
   next.tasks.splice(destination.index, 0, target);
 
-  return columns.map((c) => {
-    if (c.id === current.id) {
-      return {
-        ...c,
-        tasks: current.tasks,
-      };
-    } else if (c.id === next.id) {
-      return {
-        ...c,
-        tasks: next.tasks,
-      };
-    }
-    return c;
-  });
+  return columns;
 };
