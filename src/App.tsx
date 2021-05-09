@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, Flex, Heading, Input } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Input, Textarea } from "@chakra-ui/react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import TaskGroup from "./components/TaskGroup";
 import { reorderItems } from "./helpers/reorder";
@@ -27,14 +27,15 @@ const App = () => {
     },
   ]);
 
+  // Get state from localstorage
   useEffect(() => {
-    // Get state from localstorage
     const storageColumns = JSON.parse(localStorage.getItem("tasks")!);
     if (storageColumns) {
       setColumns(storageColumns);
     }
   }, [update]);
 
+  // Dragging a task
   const handleDragEnd = (result: DropResult) => {
     if (!result.destination) {
       return;
@@ -44,6 +45,7 @@ const App = () => {
     setColumns(reordered);
   };
 
+  // New task
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (taskText === "") {
@@ -83,15 +85,19 @@ const App = () => {
           align="center"
           mt="1.5rem"
         >
-          <Box maxW="32rem" px="1rem" w="100%">
+          <Box maxW="40rem" px="1rem" w="100%">
             <form onSubmit={handleSubmit}>
               <Flex align="center" my="1rem">
-                <Input
-                  onChange={(e) => setTaskText(e.target.value)}
-                  value={taskText}
-                  placeholder="New task ..."
-                />
-                <Button type="submit" w="10rem" ml="1rem" colorScheme="teal">
+                <Box>
+                  <Textarea
+                    onChange={(e) => setTaskText(e.target.value)}
+                    value={taskText}
+                    placeholder="New task ..."
+                    mb="1rem"
+                  />
+                  <Input type="date" />
+                </Box>
+                <Button type="submit" w="8rem" ml="1rem" colorScheme="teal">
                   Add task
                 </Button>
               </Flex>

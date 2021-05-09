@@ -18,10 +18,11 @@ const TaskGroup = (props: Props) => {
         as="h2"
         size="md"
         p="0.7rem"
-        bg="gray.300"
+        bg="teal.500"
         borderTopRadius="5px"
         fontWeight="semibold"
         textAlign="center"
+        color="white"
       >
         {props.title}
       </Heading>
@@ -30,7 +31,7 @@ const TaskGroup = (props: Props) => {
           <Box
             ref={provided.innerRef}
             {...provided.droppableProps}
-            bg={snapshot.isDraggingOver ? "orange.100" : "gray.200"}
+            bg={snapshot.isDraggingOver ? "blue.50" : "gray.100"}
             w="25rem"
             maxW="100%"
             minH="30rem"

@@ -10,6 +10,7 @@ import {
 import { DraggableProvided } from "react-beautiful-dnd";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { ColumnType, TaskType } from "../helpers/types";
+import EditTaskModal from "./EditTaskModal";
 
 interface Props {
   task: TaskType;
@@ -43,11 +44,11 @@ const Task = (props: Props) => {
       d="flex"
       justifyContent="space-between"
       alignItems="center"
+      boxShadow="md"
     >
-      <Text maxW="16.5rem" fontSize="1.1em">
+      <Text maxW="16.5rem" fontSize="1.1em" whiteSpace="pre-wrap">
         {props.task.details}
       </Text>
-      <Divider orientation="vertical" />
       <Box minW="max-content">
         <IconButton
           colorScheme="red"
@@ -56,11 +57,7 @@ const Task = (props: Props) => {
           mr={2}
           onClick={handleDelete}
         />
-        <IconButton
-          colorScheme="teal"
-          aria-label="delete-task"
-          icon={<EditIcon />}
-        />
+        <EditTaskModal setUpdate={props.setUpdate} task={props.task} />
       </Box>
     </ListItem>
   );
