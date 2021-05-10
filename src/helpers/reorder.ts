@@ -12,6 +12,7 @@ const reorderList = (list: any[], startIndex: number, endIndex: number) => {
   return result;
 };
 
+// Returns columns reordered
 export const reorderItems = (
   columns: ColumnType[],
   source: DraggableLocation,

@@ -26,6 +26,7 @@ const App = () => {
       tasks: [],
     },
   ]);
+  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
 
   // Get state from localstorage
   useEffect(() => {
@@ -56,6 +57,7 @@ const App = () => {
       id: nanoid(),
       details: taskText,
       taskState: "1",
+      date: date,
     };
     // Insert new task
     const insertedColumns = [...columns];
@@ -65,6 +67,7 @@ const App = () => {
 
     setColumns(insertedColumns);
     setTaskText("");
+    setDate(new Date().toISOString().slice(0, 10));
   };
 
   return (
@@ -75,8 +78,9 @@ const App = () => {
         flexWrap="wrap"
         flexDirection="column"
         align="center"
+        py="2rem"
       >
-        <Heading as="h1" size="2xl" mt="2%">
+        <Heading as="h1" size="2xl">
           Todo List v2
         </Heading>
         <Flex
@@ -95,9 +99,15 @@ const App = () => {
                     placeholder="New task ..."
                     mb="1rem"
                   />
-                  <Input type="date" />
+                  <Input
+                    type="date"
+                    onChange={(e) => {
+                      setDate(e.target.value);
+                    }}
+                    value={date}
+                  />
                 </Box>
-                <Button type="submit" w="8rem" ml="1rem" colorScheme="teal">
+                <Button type="submit" size="lg" ml="1rem" colorScheme="teal">
                   Add task
                 </Button>
               </Flex>

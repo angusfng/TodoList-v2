@@ -11,6 +11,7 @@ import {
   IconButton,
   useDisclosure,
   Textarea,
+  Input,
 } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
 import { ColumnType, TaskType } from "../helpers/types";
@@ -23,10 +24,11 @@ interface Props {
 const EditTaskModal = (props: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [taskText, setTaskText] = useState(props.task.details);
+  const [date, setDate] = useState(props.task.date);
 
+  // Handle editing task
   const handleEdit = () => {
     if (taskText === "") {
-      console.log("here");
       return;
     }
     const storageColumns = JSON.parse(localStorage.getItem("tasks")!);
@@ -39,6 +41,7 @@ const EditTaskModal = (props: Props) => {
       (t: TaskType) => t.id === props.task.id
     );
     toEditTask.details = taskText;
+    toEditTask.date = date;
     localStorage.setItem("tasks", JSON.stringify(storageColumns));
     props.setUpdate((update) => !update);
     onClose();
@@ -48,10 +51,10 @@ const EditTaskModal = (props: Props) => {
     <>
       <IconButton
         colorScheme="teal"
-        mx="0.5rem"
         aria-label="Edit task"
         onClick={onOpen}
         icon={<EditIcon />}
+        mr="0.5rem"
       />
 
       <Modal size="xl" isOpen={isOpen} onClose={onClose}>
@@ -65,6 +68,12 @@ const EditTaskModal = (props: Props) => {
               value={taskText}
               my="1rem"
               placeholder="Edit task ..."
+              h="10rem"
+            />
+            <Input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
             />
           </ModalBody>
           <ModalFooter>

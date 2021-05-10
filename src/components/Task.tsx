@@ -1,14 +1,7 @@
 import React from "react";
-import {
-  Text,
-  ListItem,
-  IconButton,
-  Box,
-  TabList,
-  Divider,
-} from "@chakra-ui/react";
+import { Text, ListItem, IconButton, Box, Flex } from "@chakra-ui/react";
 import { DraggableProvided } from "react-beautiful-dnd";
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import { DeleteIcon } from "@chakra-ui/icons";
 import { ColumnType, TaskType } from "../helpers/types";
 import EditTaskModal from "./EditTaskModal";
 
@@ -20,6 +13,7 @@ interface Props {
 }
 
 const Task = (props: Props) => {
+  // Handle deleting task
   const handleDelete = () => {
     const storageColumns = JSON.parse(localStorage.getItem("tasks")!);
     // Pointer to tasks
@@ -41,24 +35,27 @@ const Task = (props: Props) => {
       mb="0.5rem"
       borderRadius="5px"
       p="0.5rem"
-      d="flex"
-      justifyContent="space-between"
-      alignItems="center"
       boxShadow="md"
     >
-      <Text maxW="16.5rem" fontSize="1.1em" whiteSpace="pre-wrap">
-        {props.task.details}
-      </Text>
-      <Box minW="max-content">
-        <IconButton
-          colorScheme="red"
-          aria-label="delete-task"
-          icon={<DeleteIcon />}
-          mr={2}
-          onClick={handleDelete}
-        />
-        <EditTaskModal setUpdate={props.setUpdate} task={props.task} />
-      </Box>
+      <Flex justify="space-between" align="center">
+        <Text maxW="16.5rem" fontSize="1.1em" whiteSpace="pre-wrap">
+          {props.task.details}
+        </Text>
+        <Box textAlign="center">
+          <Box minW="max-content">
+            <EditTaskModal setUpdate={props.setUpdate} task={props.task} />
+            <IconButton
+              colorScheme="red"
+              aria-label="delete-task"
+              icon={<DeleteIcon />}
+              onClick={handleDelete}
+            />
+          </Box>
+          <Text mt="0.5rem" fontWeight="semibold">
+            {props.task.date}
+          </Text>
+        </Box>
+      </Flex>
     </ListItem>
   );
 };

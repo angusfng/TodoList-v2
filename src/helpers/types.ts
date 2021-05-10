@@ -8,4 +8,5 @@ export type TaskType = {
   id: string;
   details: string;
   taskState: string;
+  date: string;
 };
