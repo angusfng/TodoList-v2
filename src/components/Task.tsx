@@ -26,6 +26,13 @@ const Task = (props: Props) => {
     props.setUpdate((update) => !update);
   };
 
+  const convertDate = () => {
+    const dateObj = new Date(props.task.date);
+    return `${dateObj.getDate()}/${
+      dateObj.getMonth() + 1
+    }/${dateObj.getFullYear()}`;
+  };
+
   return (
     <ListItem
       ref={props.provided.innerRef}
@@ -38,7 +45,7 @@ const Task = (props: Props) => {
       boxShadow="md"
     >
       <Flex justify="space-between" align="center">
-        <Text maxW="16.5rem" fontSize="1.1em" whiteSpace="pre-wrap">
+        <Text maxW="16rem" fontSize="1.1em" whiteSpace="pre-wrap">
           {props.task.details}
         </Text>
         <Box textAlign="center">
@@ -52,7 +59,7 @@ const Task = (props: Props) => {
             />
           </Box>
           <Text mt="0.5rem" fontWeight="semibold">
-            {props.task.date}
+            {convertDate()}
           </Text>
         </Box>
       </Flex>
