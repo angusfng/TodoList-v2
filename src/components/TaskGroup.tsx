@@ -13,7 +13,7 @@ interface Props {
 
 const TaskGroup = (props: Props) => {
   return (
-    <Box m="1rem">
+    <Box m="1rem" w="100%" maxW="25rem">
       <Heading
         as="h2"
         size="md"
@@ -32,8 +32,6 @@ const TaskGroup = (props: Props) => {
             ref={provided.innerRef}
             {...provided.droppableProps}
             bg={snapshot.isDraggingOver ? "blue.50" : "gray.100"}
-            w="25rem"
-            maxW="100%"
             minH="30rem"
             p="0.5rem"
             borderBottomRadius="5px"

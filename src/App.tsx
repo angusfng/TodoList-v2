@@ -88,10 +88,11 @@ const App = () => {
           flexDirection="column"
           align="center"
           mt="1.5rem"
+          w="100%"
         >
           <Box maxW="40rem" px="1rem" w="100%">
             <form onSubmit={handleSubmit}>
-              <Flex align="center" my="1rem">
+              <Flex justify="center" my="1rem">
                 <Box>
                   <Textarea
                     onChange={(e) => setTaskText(e.target.value)}
@@ -107,13 +108,15 @@ const App = () => {
                     value={date}
                   />
                 </Box>
-                <Button type="submit" size="lg" ml="1rem" colorScheme="teal">
-                  Add task
-                </Button>
+                <Box>
+                  <Button type="submit" size="lg" ml="1rem" colorScheme="teal">
+                    Add task
+                  </Button>
+                </Box>
               </Flex>
             </form>
           </Box>
-          <Flex flexWrap="wrap" justifyContent="center">
+          <Flex flexWrap="wrap" w="100%" justify="center">
             {columns.map((col) => (
               <TaskGroup
                 key={col.id}
