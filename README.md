@@ -4,7 +4,7 @@ A drag and drop todo list application with columns inspired by Jira.
 
 View the site at: https://todolist-angusfng.netlify.app/
 
-![](https://media.giphy.com/media/csC3QPdFNz8tBGYPJs/giphy.gif)
+![](src/assets/todolist.png)
 
 ## Features
 
