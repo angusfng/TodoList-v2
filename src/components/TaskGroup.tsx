@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, Heading, UnorderedList } from "@chakra-ui/react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 import Task from "./Task";
@@ -36,7 +35,11 @@ const TaskGroup = (props: Props) => {
             p="0.5rem"
             borderBottomRadius="5px"
           >
-            <UnorderedList m={0} listStyleType="none">
+            <UnorderedList
+              m={0}
+              listStyleType="none"
+              data-testid={`col-${props.columnId}`}
+            >
               {props.tasks.map((task, idx) => (
                 <Draggable key={task.id} draggableId={task.id} index={idx}>
                   {(provided) => (
@@ -45,6 +48,7 @@ const TaskGroup = (props: Props) => {
                       provided={provided}
                       index={idx}
                       setUpdate={props.setUpdate}
+                      taskId={task.id}
                     />
                   )}
                 </Draggable>

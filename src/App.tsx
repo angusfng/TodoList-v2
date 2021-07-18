@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Box, Button, Flex, Heading, Input, Textarea } from "@chakra-ui/react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import TaskGroup from "./components/TaskGroup";
@@ -79,9 +79,10 @@ const App = () => {
         flexDirection="column"
         align="center"
         py="2rem"
+        minW="400px"
       >
         <Heading as="h1" size="2xl">
-          Todo List v2
+          Todo List
         </Heading>
         <Flex
           justify="center"
@@ -102,9 +103,7 @@ const App = () => {
                   />
                   <Input
                     type="date"
-                    onChange={(e) => {
-                      setDate(e.target.value);
-                    }}
+                    onChange={(e) => setDate(e.target.value)}
                     value={date}
                   />
                 </Box>

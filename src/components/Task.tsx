@@ -1,4 +1,3 @@
-import React from "react";
 import { Text, ListItem, IconButton, Box, Flex } from "@chakra-ui/react";
 import { DraggableProvided } from "react-beautiful-dnd";
 import { DeleteIcon } from "@chakra-ui/icons";
@@ -10,6 +9,7 @@ interface Props {
   provided: DraggableProvided;
   index: number;
   setUpdate: React.Dispatch<React.SetStateAction<boolean>>;
+  taskId: string;
 }
 
 const Task = (props: Props) => {
@@ -43,6 +43,7 @@ const Task = (props: Props) => {
       borderRadius="5px"
       p="0.5rem"
       boxShadow="md"
+      data-testid={props.taskId}
     >
       <Flex justify="space-between" align="center">
         <Text fontSize="1.1em" whiteSpace="pre-wrap">

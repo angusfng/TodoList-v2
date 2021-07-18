@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Button,
   Modal,
@@ -51,7 +51,7 @@ const EditTaskModal = (props: Props) => {
     <>
       <IconButton
         colorScheme="teal"
-        aria-label="Edit task"
+        aria-label="edit-task"
         onClick={onOpen}
         icon={<EditIcon />}
         mr="0.5rem"
