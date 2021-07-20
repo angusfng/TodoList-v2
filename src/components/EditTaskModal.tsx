@@ -74,13 +74,18 @@ const EditTaskModal = (props: Props) => {
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
+              data-testid="editModal-date-input"
             />
           </ModalBody>
           <ModalFooter>
             <Button mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button onClick={handleEdit} colorScheme="teal">
+            <Button
+              onClick={handleEdit}
+              colorScheme="teal"
+              data-testid="editModal-edit-button"
+            >
               Edit
             </Button>
           </ModalFooter>

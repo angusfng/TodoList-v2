@@ -43,10 +43,9 @@ const Task = (props: Props) => {
       borderRadius="5px"
       p="0.5rem"
       boxShadow="md"
-      data-testid={props.taskId}
     >
       <Flex justify="space-between" align="center">
-        <Text fontSize="1.1em" whiteSpace="pre-wrap">
+        <Text fontSize="1.1em" whiteSpace="pre-wrap" data-testid={props.taskId}>
           {props.task.details}
         </Text>
         <Box textAlign="center">

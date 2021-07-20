@@ -77,41 +77,6 @@ test("Localstorage task renders", () => {
   expect(todoColumn).not.toBeEmptyDOMElement();
 });
 
-test("Dragging task", () => {
-  render(
-    <LocalStorageMock
-      items={{
-        tasks: JSON.stringify([
-          {
-            id: "1",
-            title: "To do",
-            tasks: [
-              {
-                id: "FpViM3kqXRcqh69kH7iCD",
-                details: "test",
-                taskState: "1",
-                date: "2021-07-15",
-              },
-            ],
-          },
-          { id: "2", title: "Doing", tasks: [] },
-          { id: "3", title: "Done", tasks: [] },
-        ]),
-      }}
-    >
-      <App />
-    </LocalStorageMock>
-  );
-  // Focus on the todo
-  const todoColumn = screen.getByTestId("col-1");
-  expect(todoColumn).not.toBeEmptyDOMElement();
-  const todo = screen.getByTestId("FpViM3kqXRcqh69kH7iCD");
-  expect(todo).toBeInTheDocument();
-  userEvent.tab({ focusTrap: todoColumn });
-  expect(todo).toHaveFocus();
-  // userEvent.keyboard doesn't exist
-});
-
 test("Deleting task", () => {
   render(
     <LocalStorageMock
@@ -137,13 +102,57 @@ test("Deleting task", () => {
       <App />
     </LocalStorageMock>
   );
+
   // Focus on the todo
   const todoColumn = screen.getByTestId("col-1");
   expect(todoColumn).not.toBeEmptyDOMElement();
   const todo = screen.getByTestId("FpViM3kqXRcqh69kH7iCD");
   expect(todo).toBeInTheDocument();
+  // Delete the task
   const deleteTaskButton = screen.getByLabelText("delete-task");
   userEvent.click(deleteTaskButton);
   expect(todoColumn).toBeEmptyDOMElement();
 });
-// Edit task modal
+
+test("Edit task", () => {
+  render(
+    <LocalStorageMock
+      items={{
+        tasks: JSON.stringify([
+          {
+            id: "1",
+            title: "To do",
+            tasks: [
+              {
+                id: "FpViM3kqXRcqh69kH7iCD",
+                details: "test",
+                taskState: "1",
+                date: "2021-07-15",
+              },
+            ],
+          },
+          { id: "2", title: "Doing", tasks: [] },
+          { id: "3", title: "Done", tasks: [] },
+        ]),
+      }}
+    >
+      <App />
+    </LocalStorageMock>
+  );
+
+  const editButton = screen.getByLabelText("edit-task");
+  userEvent.click(editButton);
+  const modal = screen.queryByRole("dialog");
+  expect(modal).toBeInTheDocument();
+  const editTextArea = screen.getByPlaceholderText("Edit task ...");
+  expect(editTextArea).toHaveValue("test");
+  userEvent.type(editTextArea, " edit");
+  expect(editTextArea).toHaveValue("test edit");
+  const dateInput = screen.getByTestId("editModal-date-input");
+  userEvent.type(dateInput, "2021-07-10");
+  expect(dateInput).toHaveValue("2021-07-10");
+  const submitEdit = screen.getByTestId("editModal-edit-button");
+  userEvent.click(submitEdit);
+  const todo = screen.getByTestId("FpViM3kqXRcqh69kH7iCD");
+  expect(todo).toHaveTextContent("test edit");
+});
